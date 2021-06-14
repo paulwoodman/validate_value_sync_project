@@ -9,12 +9,12 @@
        name: ticket_check
 
     - name: update project
-      include_role
+      include_role:
        name: project_update 
       valid_rep == "1"
 
     - name: failed
-      include_role
+      include_role:
        name: failed
       valid_rep == "0"
       
