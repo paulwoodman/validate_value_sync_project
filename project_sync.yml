@@ -11,4 +11,9 @@
     - name: update project
       include_role:
        name: project_update 
-      valid_rep == "1"
+      when: valid_rep == "1"
+
+    - name: failed
+      include_role:
+       name: failed
+      when: valid_rep == "0"
