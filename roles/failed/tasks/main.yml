@@ -1,0 +1,3 @@
+- name: Ticket is not valid
+  fail:
+    msg: This ticket is not valid
