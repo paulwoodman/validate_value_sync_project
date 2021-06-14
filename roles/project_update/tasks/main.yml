@@ -6,7 +6,7 @@
     password: redhat
     validate_certs: False
     force_basic_auth: yes
-   register: api_output
+  register: api_output
 
 -  set_fact:
      project_id: "{{ api_output.json.results[0].id }}"
