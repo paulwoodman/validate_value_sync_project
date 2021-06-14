@@ -1,9 +1,9 @@
-- name: API call to validate value
+- name: tower API call to get project ID
   uri:
-    url: "https://192.168.1.20/api/v2/projects/?name={{project_name}}"
+    url: "https://{{ansible_nodename}}/api/v2/projects/?name={{project_name}}"
     method: GET
-    user: admin
-    password: redhat
+    user: "{{ tower_api_user }}"
+    password: "{{ tower_api_pass }}"
     validate_certs: False
     force_basic_auth: yes
   register: api_output
@@ -11,12 +11,12 @@
 -  set_fact:
      project_id: "{{ api_output.json.results[0].id }}"
 
-- name: Project sync
+- name: Excute a Project sync
   uri:
-    url: https://192.168.1.20/api/v2/projects/{{project_id}}/update/
+    url: https://{{ansible_nodename}}/api/v2/projects/{{project_id}}/update/
     method: POST
-    user: admin
-    password: redhat
+    user: "{{ tower_api_user }}"
+    password: "{{ tower_api_pass }}"
     validate_certs: False
     force_basic_auth: yes
     status_code: 202

@@ -1,9 +1,9 @@
-- name: Validate ticket
+- name: Validate ticket example (DEMO needs to be change with endusers ticket api) 
   uri:
-    url: "https://192.168.1.20/api/v2/users/?username={{ticket_id}}"
+    url: "https://{{ansible_nodename}}/api/v2/users/?username={{ticket_id}}"
     method: GET
-    user: admin
-    password: redhat
+    user: "{{ tower_api_user }}"
+    password: "{{ tower_api_pass }}"
     validate_certs: False
     force_basic_auth: yes
   register: ticket_resp
