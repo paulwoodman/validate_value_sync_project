@@ -17,8 +17,3 @@
       include_role:
        name: failed
       when: valid_rep == "0"
- 
-#    - name: success
-#      include_role:
-#       name: success
-#      when: prosync.status == 202
