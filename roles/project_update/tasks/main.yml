@@ -8,16 +8,29 @@
     force_basic_auth: yes
   register: api_output
 
--  set_fact:
-     project_id: "{{ api_output.json.results[0].id }}"
+- set_fact:
+    project_val: "{{ api_output.json.count }}"
 
-- name: Excute a Project sync
-  uri:
-    url: https://{{ansible_nodename}}/api/v2/projects/{{project_id}}/update/
-    method: POST
-    user: "{{ tower_api_user }}"
-    password: "{{ tower_api_pass }}"
-    validate_certs: False
-    force_basic_auth: yes
-    status_code: 202
-  register: prosync
+- name: Run project update
+  block:
+    - set_fact:
+        project_id: "{{ api_output.json.results[0].id }}"
+
+    - name: Excute a Project sync
+      uri:
+        url: https://{{ansible_nodename}}/api/v2/projects/{{project_id}}/update/
+        method: POST
+        user: "{{ tower_api_user }}"
+        password: "{{ tower_api_pass }}"
+        validate_certs: False
+        force_basic_auth: yes
+        status_code: 202
+      register: prosync
+
+    - debug:
+        msg: "{{project_name}} successfully sync'd"
+  when: project_val == "1" 
+
+- fail:
+    msg: "Project {{project_name}} is not valid"
+  when: project_val == "0"
